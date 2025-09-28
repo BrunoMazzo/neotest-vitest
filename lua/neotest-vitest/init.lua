@@ -161,6 +161,7 @@ function adapter.discover_positions(path)
     )) @test.definition
   ]]
   query = query .. string.gsub(query, "arrow_function", "function_expression")
+  print("returning queries")
   return lib.treesitter.parse_positions(path, query, { nested_tests = true })
 end
 
