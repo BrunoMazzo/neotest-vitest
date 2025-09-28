@@ -171,7 +171,7 @@ function adapter.discover_positions(path)
      end
      return count
    end
-   logger.info("Number of nodes: " .. count_nodes(tree))
+   vim.notify("Number of nodes: " .. count_nodes(tree))
 
    return tree
 end
