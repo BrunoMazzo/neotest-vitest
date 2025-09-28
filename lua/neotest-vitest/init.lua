@@ -160,14 +160,20 @@ function adapter.discover_positions(path)
       arguments: (arguments (string (string_fragment) @test.name) (arrow_function))
     )) @test.definition
   ]]
-  query = query .. string.gsub(query, "arrow_function", "function_expression")
-  local tree = lib.treesitter.parse_positions(path, query, { nested_tests = true })
-  for _, node in tree:iter_nodes() do
-    local pos = node:data()
-    print("found test in position" .. pos.name)
-  end
+   query = query .. string.gsub(query, "arrow_function", "function_expression")
+   local tree = lib.treesitter.parse_positions(path, query, { nested_tests = true })
 
-  return tree
+   local function count_nodes(t)
+     if not t then return 0 end
+     local count = 1
+     for _, child in ipairs(t:children() or {}) do
+       count = count + count_nodes(child)
+     end
+     return count
+   end
+   logger.info("Number of nodes: " .. count_nodes(tree))
+
+   return tree
 end
 
 ---@param path string
