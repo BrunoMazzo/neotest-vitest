@@ -161,7 +161,11 @@ function adapter.discover_positions(path)
     )) @test.definition
   ]]
    query = query .. string.gsub(query, "arrow_function", "function_expression")
-   local tree = lib.treesitter.parse_positions(path, query, { nested_tests = true })
+   local success, tree = pcall(lib.treesitter.parse_positions, path, query, { nested_tests = true })
+   if not success then
+     print("Failed to parse positions for " .. path .. ": " .. tree)
+     return nil
+   end
 
    local function count_nodes(t)
      if not t then return 0 end
