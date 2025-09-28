@@ -162,6 +162,8 @@ function adapter.discover_positions(path)
   ]]
   query = query .. string.gsub(query, "arrow_function", "function_expression")
   print("returning queries")
+  print(query)
+  print(path)
   local tree = lib.treesitter.parse_positions(path, query, { nested_tests = true })
   for _, node in tree:iter_nodes() do
     local pos = node:data()
