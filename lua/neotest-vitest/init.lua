@@ -161,13 +161,10 @@ function adapter.discover_positions(path)
     )) @test.definition
   ]]
   query = query .. string.gsub(query, "arrow_function", "function_expression")
-  print("returning queries", query, path)
   local tree = lib.treesitter.parse_positions(path, query, { nested_tests = true })
   for _, node in tree:iter_nodes() do
     local pos = node:data()
-    if pos.type == "test" then
-      print("found test in position" .. pos.name)
-    end
+    print("found test in position" .. pos.name)
   end
 
   return tree
